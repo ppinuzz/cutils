@@ -12,7 +12,6 @@
 #define VERSION "1.0.0"
 
 #include <stdio.h>
-#include <stdlib.h>			// EXIT_SUCCESS
 #include <stdbool.h>
 #include <string.h>
 
