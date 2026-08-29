@@ -18,13 +18,13 @@
 #if defined(_WIN32) || defined(__CYGWIN__)
 	#define OS_WINDOWS
 #elif defined(__linux__) || defined(__APPLE__)
-	#define OS_LINUX
+	#define OS_UNIX
 #else
 	#error "Unknown OS"
 #endif
 
 #ifdef OS_WINDOWS
-	#include <windows.h>	// horrendouws WIN32 API
+	#include <windows.h>	// horrendous WIN32 API
 #endif
 
 #include "cutils.h"
@@ -37,8 +37,8 @@
 // mustn't be put together with all the other prototypes in cutils.h
 #ifdef OS_WINDOWS
 	static bool getColorCodeWindows(const enum Color color, WORD* pWinColor);
-#elif defined(OS_LINUX)
-	static bool getColorCodeLinux(const enum Color color, char* const ANSIcolor);
+#elif defined(OS_UNIX)
+	static bool getColorCodeUnix(const enum Color color, char* const ANSIcolor);
 #endif
 
 #ifdef OS_WINDOWS
@@ -128,7 +128,7 @@
 		}
 		return status;
 	}
-#elif defined(OS_LINUX)
+#elif defined(OS_UNIX)
 	#define ANSI_RESET "\x1b[0m"
 	/*
 	From https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit
@@ -150,7 +150,7 @@
 	 *
 	 * @return true if @p color is valid, false otherwise.
 	 */
-	static bool getColorCodeLinux(const enum Color color, char* const ANSIcolor){
+	static bool getColorCodeUnix(const enum Color color, char* const ANSIcolor){
 		// assume no error
 		bool status = true;
 		switch (color){
@@ -225,11 +225,11 @@ void printColorText(const char* const message, const enum Color color){
 
 		// restore original attributes (like ANSI reset)
 		SetConsoleTextAttribute(hConsole, saved_attributes);
-	#elif defined(OS_LINUX)
+	#elif defined(OS_UNIX)
 		// "\x1b[97m" has 5 characters: ESC (\x1b), [, 9, 7, m, plus the null
 		// terminator \0 => array length is 6
 		char ANSIcolor[6];
-		getColorCodeLinux(color, ANSIcolor);
+		getColorCodeUnix(color, ANSIcolor);
 		printf("%s%s%s", ANSIcolor, message, ANSI_RESET);
 	#endif
 }
