@@ -9,3 +9,7 @@
 # executables
 *.exe
 *.out
+
+# docs files
+docs/html
+docs/latex

@@ -1,8 +1,13 @@
-/*
-	COLLECTION OF VARIOUS C UTILITIES - SOURCE FILE
+/**
+ * @file cutils.c
+ * @brief Implementation of the cutils library.
+ *
+ * Contains the platform-specific implementation of the terminal
+ * colour and message-printing utilities declared in cutils.h.
+ *
+ * @author Andrea Pinardi <andreapinardi319@gmail.com>
+ */
 
-	author: Andrea Pinardi <andreapinardi319@gmail.com>
-*/
 
 #define VERSION "1.0.0"
 
@@ -58,6 +63,15 @@
 	Their type is WORD: see the signature of the function using them in
 	https://learn.microsoft.com/en-us/windows/console/setconsoletextattribute
 	*/
+	
+	/**
+	 * @brief Convert a colour enumeration to its Windows console representation.
+	 *
+	 * @param[in]  color     Requested colour.
+	 * @param[out] pWinColor Corresponding Windows colour attributes.
+	 *
+	 * @return true if @p color is valid, false otherwise.
+	 */
 	static bool getColorCodeWindows(const enum Color color, WORD* pWinColor){
 		// assume no error
 		bool status = true;
@@ -117,15 +131,26 @@
 	}
 #elif defined(OS_LINUX)
 	#define ANSI_RESET "\x1b[0m"
-	// from https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit
-	// generic format of the code is
-	//		ESC[codeFG;codeBGm
-	// where
-	//		ESC 	has escape sequence \x1b in C
-	//		codeFG	code for foreground colour
-	//		codeFG	code for background colour
-	// if you only need to change the foreground colour, use
-	//		ESC[codeFGm
+	/*
+	From https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit
+	Generic format of the code is
+		ESC[codeFG;codeBGm
+	where
+		ESC 	has escape sequence \x1b in C
+		codeFG	code for foreground colour
+		codeFG	code for background colour
+	If you only need to change the foreground colour, use
+		ESC[codeFGm
+	*/
+
+	/**
+	 * @brief Convert a colour enumeration to an ANSI escape sequence.
+	 *
+	 * @param[in]  color     Requested colour.
+	 * @param[out] ANSIcolor Buffer receiving the ANSI escape sequence.
+	 *
+	 * @return true if @p color is valid, false otherwise.
+	 */
 	static bool getColorCodeLinux(const enum Color color, char* const ANSIcolor){
 		// assume no error
 		bool status = true;

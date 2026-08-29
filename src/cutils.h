@@ -1,8 +1,13 @@
-/*
-	COLLECTION OF VARIOUS C UTILITIES - HEADER FILE
+/**
+ * @file cutils.h
+ * @brief Collection of general-purpose C utilities.
+ *
+ * Provides utilities for printing coloured text and messages to a terminal.
+ *
+ * @author Andrea Pinardi <andreapinardi319@gmail.com>
+ * @version 1.0.0
+ */
 
-	author: Andrea Pinardi <andreapinardi319@gmail.com>
-*/
 
 /*
 To prevent the inclusion of this header files several times (e.g. because it's
@@ -14,6 +19,9 @@ onward, CUTILS_H is already defined and the declarations are skipped
 #ifndef CUTILS_H
 	#define CUTILS_H
 
+	/**
+	 * @brief Available foreground text colours.
+	 */
 	// (no black listed, despite being a valid ANSI code, because there's no 
 	// equivalent in WIN32 API)
 	enum Color {
@@ -33,6 +41,11 @@ onward, CUTILS_H is already defined and the declarations are skipped
 		FORE_BRIGHT_WHITE
 	};
 
+	/**
+	 * @brief Message severity levels.
+	 *
+	 * Each level is associated with a predefined text colour.
+	 */
 	enum MessageLevel {
 		MSG_BASIC,
 		MSG_ERROR,
@@ -42,6 +55,22 @@ onward, CUTILS_H is already defined and the declarations are skipped
 	};
 
 
+	/**
+	 * @brief Print coloured text to the terminal.
+	 *
+	 * The text colour is temporarily changed to @p color and restored
+	 * after the message has been printed.
+	 *
+	 * @param[in] message Text to print.
+	 * @param[in] color   Foreground colour.
+	 */
 	void printColorText(const char* const message, const enum Color color);
+
+	/**
+	 * @brief Print a message using a predefined message level.
+	 *
+	 * @param[in] message Text to print.
+	 * @param[in] level   Message severity level.
+	 */
 	void printMessage(const char* const message, const enum MessageLevel level);
 #endif

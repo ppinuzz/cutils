@@ -8,3 +8,11 @@ To compile the example file `examples/example.c`, run from within the `examples`
 ```make
 make
 ```
+
+
+## Documentations
+Generate the docs by running
+```make
+make docs
+```
+from within the repository directory. The HTML docs can be accessed by opening `docs/html/index.html` in your browser.
